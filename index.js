@@ -1,6 +1,6 @@
 const express =  require('express')
 require('dotenv').config()
-
+const {dbConection} = require('./DB/config')
 const cors = require('cors')
 
 
@@ -11,7 +11,7 @@ const app = express()
 app.use(cors())
 
 // Iniciar la base de datos
-
+dbConection()
 
 // Declarar las rutas
 
