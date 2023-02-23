@@ -1,6 +1,7 @@
 const {response} = require('express')
 const bcrypt = require('bcryptjs')
 const Usuario = require('../models/Usuario')
+const { generarJWT } = require('../helpers/jwt')
 
 
 const crearUsuario = async(req,res = response) => {
@@ -26,11 +27,13 @@ const crearUsuario = async(req,res = response) => {
         await usuario.save()
 
         // TODO: Generar JWT
+        const token = await generarJWT(usuario.id, usuario.name)
 
         res.status(201).json({
             ok:true,
             uid: usuario.id,
             name: usuario.name,
+            token
 
         })
 
@@ -44,6 +47,52 @@ const crearUsuario = async(req,res = response) => {
 
 }
 
+const loginUsuario  = async(req,res = response) => {
+
+    const {email,password} = req.body
+
+    
+    try {
+        // Validar que el usuario exista
+        const usuario = await Usuario.findOne({email})
+        if(!usuario){
+            return res.status(400).json({
+                ok:false,
+                msg:'El Usuario no existe con este correo'
+            })
+        }
+
+        // Validar la contraseña
+        const validarPassword = bcrypt.compareSync(password, usuario.password)
+        if(!validarPassword){
+            return res.status(400).json({
+                ok:false,
+                msg: 'Constraseña Incorrecta'
+            })
+        }
+
+        // Generar JWT
+        const token = await generarJWT(usuario.id, usuario.name)
+
+        res.status(200).json({
+            ok:true,
+            uid: usuario.id,
+            name: usuario.name,
+            token
+        })
+
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok:false,
+            msg:'Se presento un erro, hable con el administrador'
+        })
+    }
+
+}
+
 module.exports = {
-    crearUsuario
+    crearUsuario,
+    loginUsuario
 }

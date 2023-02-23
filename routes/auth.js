@@ -3,7 +3,7 @@
 const {Router} = require('express')
 const {check} = require('express-validator')
 const {validarCampos} = require('../middlewares/validar-campos')
-const {crearUsuario} = require('../controller/auth')
+const {crearUsuario,loginUsuario} = require('../controller/auth')
 
 const router = Router()
 
@@ -26,7 +26,7 @@ router.post(
         check('password','La contraseña es incorrecta').isLength({min: 6}),
         validarCampos
     ],
-    //TODO: crearUsuario 
+    loginUsuario
 )
 
 //TODO: router.get('/renew', validarJWT, revalidarToken)
