@@ -14,6 +14,9 @@ app.use(cors())
 dbConection()
 
 // Declarar las rutas
-
+app.use('/auth',require('./routes/auth'))
 
 // Escuchar peticiones
+app.listen(process.env.PORT, () => {
+    console.log(`Servidor corriendo en el puerto ${process.env.PORT}`);
+})
