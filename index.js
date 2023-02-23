@@ -13,6 +13,9 @@ app.use(cors())
 // Iniciar la base de datos
 dbConection()
 
+// Parcear Body
+app.use(express.json())
+
 // Declarar las rutas
 app.use('/auth',require('./routes/auth'))
 
