@@ -16,6 +16,7 @@ router.post(
     [
         // Middleware
         check('name','El Nombre es obligatorio').not().isEmpty(),
+        check('departament','El Departamento es obligatorio').not().isEmpty(),
         check('email','El Correo es obligatorio').isEmail(),
         check('password','La contraseña debe tener mas de 6 caracteres').isLength({min: 6}),
         validarCampos

@@ -6,6 +6,11 @@ const UsuarioSchema = Schema({
         type: String,
         require: true
     },
+    
+    departament: {
+        type: String,
+        require: true
+    },
 
     email: {
         type: String,
